@@ -30,29 +30,29 @@ MainSection:NewSlider("Rebirth Delay", "Changes the delay of the auto clicker (.
     getgenv().RebirthDelay = v/1000
 end)
 
-MainSection:NewDropdown("Rebirth Amount", "Pick the amount to auto rebirth", {"1", "10", "100", "1k" , "10k" , "100k", "1m", "10m"}, function(currentOption)
+MainSection:NewDropdown("Rebirth Amount", "Pick the amount to auto rebirth", {"1", "10", "100", "1k" , "10k" , "100k", "1m", "10m"}, function(CurrentOption)
 
-    if currentOption == "1" then
+    if CurrentOption == "1" then
         getgenv().SelectedRebirth = 1
-    elseif currentOption == "10" then
+    elseif CurrentOption == "10" then
         getgenv().SelectedRebirth = 10
                 
-    elseif currentOption == "100" then
+    elseif CurrentOption == "100" then
         getgenv().SelectedRebirth = 100
     
-    elseif currentOption == "1k" then
+    elseif CurrentOption == "1k" then
         getgenv().SelectedRebirth = 1000
     
-    elseif currentOption == "10k" then
+    elseif CurrentOption == "10k" then
         getgenv().SelectedRebirth = 10000
     
-    elseif currentOption == "100k" then
+    elseif CurrentOption == "100k" then
         getgenv().SelectedRebirth = 100000
     
-    elseif currentOption == "1m" then
+    elseif CurrentOption == "1m" then
         getgenv().SelectedRebirth = 1000000
         
-    elseif currentOption == "10m" then
+    elseif CurrentOption == "10m" then
         getgenv().SelectedRebirth = 10000000
     end
 
