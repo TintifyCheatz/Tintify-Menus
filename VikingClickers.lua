@@ -82,11 +82,11 @@ end)
 
 local EggsSection = Main:NewSection("Eggs")
 
-RebirthSection:NewSlider("Egg Open Amount", "Changes the amount of the auto egg opener (1-50)", 50000, 1000, function(v) -- 500 (MaxValue) | 0 (MinValue)
+EggsSection:NewSlider("Egg Open Amount", "Changes the amount of the auto egg opener (1-50)", 50000, 1000, function(v) -- 500 (MaxValue) | 0 (MinValue)
     getgenv().RebirthDelay = v/1000
 end)
 
-RebirthSection:NewDropdown("Egg Type", "Pick what egg to open", {"Basic Egg, 250"}, function(CurrentOption)
+EggsSection:NewDropdown("Egg Type", "Pick what egg to open", {"Basic Egg, 250"}, function(CurrentOption)
 
     if CurrentOption == "Basic Egg, 250" then
         getgenv().SelectedEgg = "Spoil"
@@ -94,7 +94,7 @@ RebirthSection:NewDropdown("Egg Type", "Pick what egg to open", {"Basic Egg, 250
 
 end)
 
-RebirthSection:NewButton("Buy Egg", "Buys the selected egg", function(v)
+EggsSection:NewButton("Buy Egg", "Buys the selected egg", function(v)
     
 local args = {
     [1] = SelectedEgg
