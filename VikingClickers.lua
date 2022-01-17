@@ -2,6 +2,7 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHept
 
 local Window = Library.CreateLib("Viking Clickers GUI", "Midnight")
 local Main = Window:NewTab("Main")
+local Settings = Window:NewTab("Settings")
 
 local ClickingSection = Main:NewSection("Clicking")
 
