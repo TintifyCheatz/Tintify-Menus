@@ -2,6 +2,9 @@
 local player = game.Players.LocalPlayer
 local mouse = player:GetMouse()
 
+-- destroy ui
+local menu = container
+
 -- services
 local input = game:GetService("UserInputService")
 local run = game:GetService("RunService")
@@ -305,6 +308,10 @@ do
 			pages = {}
 		}, library)
 	end
+
+    function Kill()
+        menu:Destroy()
+    end
 
 	function page.new(library, title, icon)
 		local button = utility:Create("TextButton", {
