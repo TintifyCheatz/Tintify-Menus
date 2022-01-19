@@ -82,7 +82,7 @@ end)
 
 local EggsSection = Main:NewSection("Eggs")
 
-EggsSection:NewSlider("Egg Open Amount", "Changes the amount of the auto egg opener (1-50)", 50000, 1000, function(v) -- 500 (MaxValue) | 0 (MinValue)
+EggsSection:NewSlider("Egg Open Amount", "Changes the amount of the auto egg opener (1-50)", 50, 1, function(v) -- 500 (MaxValue) | 0 (MinValue)
     getgenv().RebirthDelay = v/1000
 end)
 
