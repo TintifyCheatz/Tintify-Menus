@@ -1,4 +1,4 @@
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Stefanuk12/Venyx-UI-Library/main/source2.lua"))()
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/TintifyCheatz/Tintify-Menus/main/Venyx-UI-Library-Custom.lua"))()
 
 local Hub = library.new("T Hub")
 
@@ -72,6 +72,18 @@ SettingsKeybindsSection:addKeybind({
     callback = function()
         print("Activated Keybind!")
         Hub:toggle()
+    end,
+    changedCallback = function(key)
+        print("Changed Keybind to", key)
+    end
+})
+
+SettingsKeybindsSection:addKeybind({
+    title = "Kill Menu Key (Standard: Delete)",
+    key = Enum.KeyCode.Delete,
+    callback = function()
+        print("Activated Keybind!")
+        Hub:Kill()
     end,
     changedCallback = function(key)
         print("Changed Keybind to", key)

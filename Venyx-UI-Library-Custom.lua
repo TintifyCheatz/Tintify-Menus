@@ -2,9 +2,6 @@
 local player = game.Players.LocalPlayer
 local mouse = player:GetMouse()
 
--- destroy ui
-local menu = container
-
 -- services
 local input = game:GetService("UserInputService")
 local run = game:GetService("RunService")
@@ -309,7 +306,9 @@ do
 		}, library)
 	end
 
-    function Kill()
+	getgenv().menu = container
+
+    function KillMenu()
         menu:Destroy()
     end
 
