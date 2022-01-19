@@ -306,7 +306,7 @@ do
 		}, library)
 	end
 
-	getgenv().menu = container
+	getgenv().menu = utility
 
     function KillMenu()
         menu:Destroy()
