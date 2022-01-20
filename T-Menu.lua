@@ -1,6 +1,7 @@
 local TMenu = {}
 
 function TMenu:CreateWindow(title)
+    title  = title or "Title"
     local ScreenGui = Instance.new("ScreenGui")
     local Main = Instance.new("Frame")
     local MainCorner = Instance.new("UICorner")
@@ -10,8 +11,8 @@ function TMenu:CreateWindow(title)
     local Close = Instance.new("ImageButton")
     local MainSide = Instance.new("Frame")
     local MainSideCorner = Instance.new("UICorner")
-    local TabFrames = Instance.new("Frame")
-    local TabListing = Instance.new("UIListLayout")
+    local CategoryFrames = Instance.new("Frame")
+    local CategoryListing = Instance.new("UIListLayout")
     local Pages = Instance.new("Frame")
     local PageFolder = Instance.new("Folder")
     local page = Instance.new("ScrollingFrame")
@@ -78,17 +79,17 @@ function TMenu:CreateWindow(title)
     MainSideCorner.Name = "MainSideCorner"
     MainSideCorner.Parent = MainSide
 
-    TabFrames.Name = "TabFrames"
-    TabFrames.Parent = MainSide
-    TabFrames.BackgroundColor3 = Color3.fromRGB(38, 38, 38)
-    TabFrames.BorderSizePixel = 0
-    TabFrames.Position = UDim2.new(0.0466666669, 0, 0.0169491526, 0)
-    TabFrames.Size = UDim2.new(0, 135, 0, 285)
+    CategoryFrames.Name = "CategoryFrames"
+    CategoryFrames.Parent = MainSide
+    CategoryFrames.BackgroundColor3 = Color3.fromRGB(38, 38, 38)
+    CategoryFrames.BorderSizePixel = 0
+    CategoryFrames.Position = UDim2.new(0.0466666669, 0, 0.0169491526, 0)
+    CategoryFrames.Size = UDim2.new(0, 135, 0, 285)
 
-    TabListing.Name = "TabListing"
-    TabListing.Parent = TabFrames
-    TabListing.SortOrder = Enum.SortOrder.LayoutOrder
-    TabListing.Padding = UDim.new(0, 5)
+    CategoryListing.Name = "CategoryListing"
+    CategoryListing.Parent = CategoryFrames
+    CategoryListing.SortOrder = Enum.SortOrder.LayoutOrder
+    CategoryListing.Padding = UDim.new(0, 5)
 
     Pages.Name = "Pages"
     Pages.Parent = Main
@@ -103,11 +104,21 @@ function TMenu:CreateWindow(title)
 
     local Category = {}
 
-    function Category:CreateCategory(CategoryName)
-        local CategoryButton = Instance.new("TextButton")
+    local first = true
+    function Category:NewCategory(CategoryName)
+        CategoryName = CategoryName or "Category"
         local CategoryCorner = Instance.new("UICorner")
+        local CategoryButton = Instance.new("TextButton")
         local page = Instance.new("ScrollingFrame")
         local pageListing = Instance.new("UIListLayout")
+
+        local function UpdateSize()
+            local cS = pageListing.AbsoluteContentSize
+
+            game.TweenService:Create(page, TweenInfo.new(0.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                CanvasSize = UDim2.new(0,cS.X,0,cS.Y)
+            }):Play()
+        end
 
         page.Name = "page"
         page.Parent = PageFolder
@@ -120,22 +131,100 @@ function TMenu:CreateWindow(title)
         pageListing.Name = "pageListing"
         pageListing.Parent = page
         pageListing.SortOrder = Enum.SortOrder.LayoutOrder
+        pageListing.Padding = UDim.new(0, 6)
         
-        CategoryButton.Name = "TabButton"
-        CategoryButton.Parent = TabFrames
-        CategoryButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        CategoryButton.Name = "CategoryButton"
+        CategoryButton.Parent = CategoryFrames
+        CategoryButton.BackgroundColor3 = Color3.fromRGB(150, 44, 255)
         CategoryButton.Size = UDim2.new(0, 135, 0, 30)
         CategoryButton.Font = Enum.Font.SourceSans
         CategoryButton.TextColor3 = Color3.fromRGB(0, 0, 0)
         CategoryButton.TextSize = 14.000
 
         CategoryCorner.CornerRadius = UDim.new(0, 4)
-        CategoryCorner.Parent = TabButton
+        CategoryCorner.Parent = CategoryButton
+
+        if first then
+            first = false
+            page.Visible = true
+            CategoryButton.BackgroundTransparency = 0
+        else
+            page.Visible = false
+            CategoryButton.BackgroundTransparency = 1
+        end
+
+        table.insert(Category, CategoryName)
+
+        page.ChildAdded:Connect(UpdateSize)
+        page.ChildRemoved:Connect(UpdateSize)
+
+        CategoryButton.MouseButton1Click:Connect(function()
+            for i,v in next, Pages:GetChildren() do
+            v.Visible = false
+            end
+            page.Visible = true
+        end)
+
+        local Sections = {}
+
+        function Sections:NewSection(sectionName, hidden)
+            sectionName = sectionName or "Section"
+            local SectionFunctions = {}
+            local Modules = {}
+        hidden = hidden or "false"
+            local SectionFrame = Instance.new("Frame")
+            local SectionListing = Instance.new("UIListLayout")
+            local SectionButton = Instance.new("TextButton")
+            local SectionCorner = Instance.new("UICorner")
+            local SectionInners = Instance.new("Frame")
+            local SectionInnersListing = Instance.new("UIListLayout")
+        if hidden then
+            SectionInners.Visible = false
+        else
+            SectionInners.Visible = true
+        end
+
+            SectionFrame.Name = "SectionFrame"
+            SectionFrame.Parent = page
+            SectionFrame.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
+            SectionFrame.BorderSizePixel = 0
+            SectionFrame.Size = UDim2.new(0, 365, 0, 275)
+            
+            SectionListing.Name = "SectionListing"
+            SectionListing.Parent = SectionFrame
+            SectionListing.SortOrder = Enum.SortOrder.LayoutOrder
+            SectionListing.Padding = UDim.new(0, 6)
+            
+            SectionButton.Name = "SectionButton"
+            SectionButton.Parent = SectionFrame
+            SectionButton.BackgroundColor3 = Color3.fromRGB(150, 44, 255)
+            SectionButton.Size = UDim2.new(0, 359, 0, 35)
+            SectionButton.Font = Enum.Font.SourceSans
+            SectionButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+            SectionButton.TextSize = 20.000
+            
+            SectionCorner.CornerRadius = UDim.new(0, 4)
+            SectionCorner.Name = "SectionCorner"
+            SectionCorner.Parent = SectionButton
+            
+            SectionInners.Name = "SectionInners"
+            SectionInners.Parent = SectionButton
+            SectionInners.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
+            SectionInners.BorderSizePixel = 0
+            SectionInners.Position = UDim2.new(0, 0, 1.28571427, 0)
+            SectionInners.Size = UDim2.new(0, 356, 0, 230)
+            
+            SectionInnersListing.Name = "SectionInnersListing"
+            SectionInnersListing.Parent = SectionInners
+            SectionInnersListing.SortOrder = Enum.SortOrder.LayoutOrder
+        end
     end
     return Category
 end
 
 local main = TMenu:CreateWindow("T Hub")
 
-local TestCategory = main:CreateCategory("Test1223")
-local TestCategory = main:CreateCategory("Test1222")
+local TestCategory = main:NewCategory("Test1223")
+local TestCategory2 = main:NewCategory("Test1222")
+
+local TestSection = TestCategory:NewSection("Test122323")
